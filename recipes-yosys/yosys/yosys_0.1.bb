@@ -59,6 +59,7 @@ do_configure () {
 
 do_compile () {
 	# You will almost certainly need to add additional arguments here
+	oe_runmake config-gcc
 	oe_runmake
 }
 
