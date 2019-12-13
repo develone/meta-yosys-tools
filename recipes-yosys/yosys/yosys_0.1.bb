@@ -47,7 +47,7 @@ S = "${WORKDIR}/git"
 #       (this is based on recipes that have previously been built and packaged)
 # NOTE: some of these dependencies may be optional, check the Makefile and/or upstream documentation
 DEPENDS = "bison-native ncurses readline zlib"
-
+inherit pkgconfig
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
@@ -65,6 +65,6 @@ do_compile () {
 
 do_install () {
 	# This is a guess; additional arguments may be required
-	oe_runmake install
+	oe_runmake install 'DESTDIR=${D}'
 }
 
