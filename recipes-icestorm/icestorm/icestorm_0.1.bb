@@ -15,6 +15,8 @@ SRCREV = "8cac6c584044034210fe0ba1e6b930ff1cc59465"
 
 S = "${WORKDIR}/git"
 
+DEPENDS = "libftdi"
+
 DEPENDS = "ftdi"
 
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
