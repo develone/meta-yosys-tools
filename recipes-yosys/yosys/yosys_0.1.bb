@@ -24,16 +24,16 @@
 # instead of &. If there is any doubt, check the accompanying documentation
 # to determine which situation is applicable.
 LICENSE = "ISC & Unknown"
-LIC_FILES_CHKSUM = "file://COPYING;md5=3894bff8746d28aca6650d596b65b37a \
-                    file://libs/minisat/LICENSE;md5=878eeefb2214c36db1f068609e7ce90a \
-                    file://abc/copyright.txt;md5=bddcabf9df6d33e12310a00780d3a87c \
-                    file://abc/src/sat/satoko/LICENSE;md5=cc01bb341364c7e6659b097fb5f223fc \
-                    file://abc/src/sat/bsat2/LICENSE;md5=878eeefb2214c36db1f068609e7ce90a \
-                    file://abc/src/sat/xsat/license;md5=3f7ef0a90acb921bb7462e57c3659ee0 \
-                    file://abc/src/sat/bsat/license;md5=7baa08bf9c4d2131e54bda335061b936 \
-                    file://abc/src/bdd/cudd/license;md5=7a04343d712b78151fc48c0233a28ed9 \
-                    file://abc/src/misc/zlib/license;md5=46d36f758dcfbe5385119b572449abed \
-                    file://abc/src/misc/bzlib/LICENSE;md5=7023994919680c533b77301b306ea1c9"
+LIC_FILES_CHKSUM = "file://COPYING;md5=3894bff8746d28aca6650d596b65b37a" 
+#                    file://libs/minisat/LICENSE;md5=878eeefb2214c36db1f068609e7ce90a \
+#                    file://abc/copyright.txt;md5=bddcabf9df6d33e12310a00780d3a87c \
+#                    file://abc/src/sat/satoko/LICENSE;md5=cc01bb341364c7e6659b097fb5f223fc \
+#                    file://abc/src/sat/bsat2/LICENSE;md5=878eeefb2214c36db1f068609e7ce90a \
+#                    file://abc/src/sat/xsat/license;md5=3f7ef0a90acb921bb7462e57c3659ee0 \
+#                    file://abc/src/sat/bsat/license;md5=7baa08bf9c4d2131e54bda335061b936 \
+#                    file://abc/src/bdd/cudd/license;md5=7a04343d712b78151fc48c0233a28ed9 \
+#                    file://abc/src/misc/zlib/license;md5=46d36f758dcfbe5385119b572449abed \
+#                    file://abc/src/misc/bzlib/LICENSE;md5=7023994919680c533b77301b306ea1c9"
 
 SRC_URI = "git://github.com/develone/yosys.git;protocol=https"
 
