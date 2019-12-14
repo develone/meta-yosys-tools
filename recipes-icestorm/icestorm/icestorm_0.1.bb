@@ -17,7 +17,6 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "libftdi"
 
-DEPENDS = "ftdi"
 
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
