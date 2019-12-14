@@ -31,6 +31,6 @@ do_compile () {
 
 do_install () {
 	# This is a guess; additional arguments may be required
-	oe_runmake install
+	oe_runmake install 'DESTDIR=${D}'
 }
 
