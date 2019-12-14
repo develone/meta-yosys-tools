@@ -19,6 +19,8 @@ S = "${WORKDIR}/git"
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
 
+inherit pkgconfig
+
 do_configure () {
 	# Specify any needed configure commands here
 	:
