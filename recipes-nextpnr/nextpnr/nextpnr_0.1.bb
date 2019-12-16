@@ -35,10 +35,15 @@ SRCREV = "7d5dba3ad378563869657b4330c178ecd8c24931"
 S = "${WORKDIR}/git"
 
 # NOTE: unable to map the following CMake package dependencies: Qt5 Sanitizers
-DEPENDS = "boost virtual/libgl"
+DEPENDS = "boost virtual/libgl cmake cmake-native"
 
 inherit cmake python-dir pythonnative
 
-# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
-EXTRA_OECMAKE = ""
+FILES_${PN} = '/usr/local/bin /usr/local/share'
 
+# Specify any options you want to pass to cmake using EXTRA_OECMAKE:
+do_configure () {
+}
+
+do_compile() {
+}

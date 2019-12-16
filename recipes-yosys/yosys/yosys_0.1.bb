@@ -46,8 +46,12 @@ S = "${WORKDIR}/git"
 # NOTE: the following library dependencies are unknown, ignoring: bsd curses gtest netapi32 termcap gtest_main edit ws2_32 yosys wsock32 tcl86
 #       (this is based on recipes that have previously been built and packaged)
 # NOTE: some of these dependencies may be optional, check the Makefile and/or upstream documentation
-DEPENDS = "bison-native ncurses readline zlib"
+
+DEPENDS = "bison-native ncurses readline zlib tcl-native"
+
 inherit pkgconfig
+
+FILES_${PN} = '/usr/local/bin /usr/local/share'
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
