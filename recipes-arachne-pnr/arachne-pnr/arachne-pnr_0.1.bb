@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
 
-DEPENDS = " icestorm busybox "
+DEPENDS = " icestorm busybox coreutils-native"
 inherit pkgconfig 
 
 FILES_${PN} = '/opt/bin /opt/share'
