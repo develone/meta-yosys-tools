@@ -18,19 +18,17 @@ S = "${WORKDIR}/git"
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
-<<<<<<< HEAD
-DEPENDS = " icestorm busybox"
+
+DEPENDS = " icestorm busybox "
 inherit pkgconfig 
 
 FILES_${PN} = '/opt/bin /opt/share'
-=======
 DEPENDS = "bash-native"
 
 inherit pkgconfig
 
 FILES_${PN} = '/usr/local/bin /usr/local/share'
 
->>>>>>> 9abdcacbd164a6ca108f6488eb10dd1a6b1e858d
 do_configure () {
 	# Specify any needed configure commands here
 	:
