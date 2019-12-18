@@ -11,15 +11,16 @@ SRC_URI = "git://github.com/develone/icestorm.git;protocol=https"
 
 # Modify these as desired
 PV = "0.1+git${SRCPV}"
-SRCREV = "8cac6c584044034210fe0ba1e6b930ff1cc59465"
+SRCREV = "041c075e4abaea2352ef454f1c1381c5b7f1c0b4"
 
 S = "${WORKDIR}/git"
 
 DEPENDS = "libftdi"
 
-inherit pkgconfig
+inherit pkgconfig 
 
-FILES_${PN} = '/usr/local/bin /usr/local/share' 
+
+FILES_${PN} = '/opt/bin /opt/share' 
 
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
