@@ -11,19 +11,26 @@ SRC_URI = "git://github.com/develone/arachne-pnr.git;protocol=https"
 
 # Modify these as desired
 PV = "0.1+git${SRCPV}"
-SRCREV = "840bdfdeb38809f9f6af4d89dd7b22959b176fdd"
+SRCREV = "0901f6348223c1d5e88b82c1a112a7b7a2dbfad0"
 
 S = "${WORKDIR}/git"
 
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
+<<<<<<< HEAD
+DEPENDS = " icestorm busybox"
+inherit pkgconfig 
+
+FILES_${PN} = '/opt/bin /opt/share'
+=======
 DEPENDS = "bash-native"
 
 inherit pkgconfig
 
 FILES_${PN} = '/usr/local/bin /usr/local/share'
 
+>>>>>>> 9abdcacbd164a6ca108f6488eb10dd1a6b1e858d
 do_configure () {
 	# Specify any needed configure commands here
 	:
