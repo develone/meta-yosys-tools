@@ -20,6 +20,8 @@ S = "${WORKDIR}/git"
 # that the appropriate arguments are passed in.
 
 DEPENDS = " icestorm busybox coreutils-native"
+
+RDEPENDS_${PN} = "coreutils"
 inherit pkgconfig 
 
 FILES_${PN} = '/opt/bin /opt/share'
