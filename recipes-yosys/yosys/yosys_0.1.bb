@@ -10,6 +10,7 @@
 #   libs/minisat/LICENSE
 #   abc/copyright.txt
 #   abc/src/sat/satoko/LICENSE
+#   abc/src/sat/glucose/license
 #   abc/src/sat/bsat2/LICENSE
 #   abc/src/sat/xsat/license
 #   abc/src/sat/bsat/license
@@ -24,10 +25,11 @@
 # instead of &. If there is any doubt, check the accompanying documentation
 # to determine which situation is applicable.
 LICENSE = "ISC & Unknown"
-LIC_FILES_CHKSUM = "file://COPYING;md5=3894bff8746d28aca6650d596b65b37a" 
+LIC_FILES_CHKSUM = "file://COPYING;md5=813261e6f7a8ae3129764df951efa9b1 "
 #                    file://libs/minisat/LICENSE;md5=878eeefb2214c36db1f068609e7ce90a \
 #                    file://abc/copyright.txt;md5=bddcabf9df6d33e12310a00780d3a87c \
 #                    file://abc/src/sat/satoko/LICENSE;md5=cc01bb341364c7e6659b097fb5f223fc \
+#                    file://abc/src/sat/glucose/license;md5=59b83f0fa6580367d7e2c7b1a1bc3a62 \
 #                    file://abc/src/sat/bsat2/LICENSE;md5=878eeefb2214c36db1f068609e7ce90a \
 #                    file://abc/src/sat/xsat/license;md5=3f7ef0a90acb921bb7462e57c3659ee0 \
 #                    file://abc/src/sat/bsat/license;md5=7baa08bf9c4d2131e54bda335061b936 \
@@ -39,7 +41,7 @@ SRC_URI = "git://github.com/develone/yosys.git;protocol=https"
 
 # Modify these as desired
 PV = "0.1+git${SRCPV}"
-SRCREV = "e275692e84c935d0cdf42c2a4adf7ac949a88132"
+SRCREV = "d406f2ffd776e4f69c86a96db8e69a9aa8a1dc1c"
 
 S = "${WORKDIR}/git"
 
@@ -49,15 +51,19 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "bison-native ncurses readline zlib tcl-native"
 
-inherit pkgconfig
+inherit pkgconfig poky-sanity
 
-FILES_${PN} = '/usr/local/bin /usr/local/share'
+FILES_${PN} = '/opt/bin /opt/share'
+
+INSANE_SKIP_${PN}_append = 'already-stripped' 
+
 # NOTE: this is a Makefile-only piece of software, so we cannot generate much of the
 # recipe automatically - you will need to examine the Makefile yourself and ensure
 # that the appropriate arguments are passed in.
 
 do_configure () {
 	# Specify any needed configure commands here
+	git checkout yocto
 	:
 }
 
