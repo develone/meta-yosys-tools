@@ -55,3 +55,6 @@ Warning: Use of default value for --package is deprecated. Please add '--package
 ERROR: Unable to read chipdb /opt/share/icebox/ice40/chipdb-384.bin
 1 warning, 1 error
 
+raspberrypi4-64:~/catzip/rtl/catzip$ nextpnr-ice40 --package ct256 --seed 8 --freq 40 --hx8k --pcf catzip.pcf --json catzip.json --asc catzip.asc
+ERROR: Unable to read chipdb /opt/share/icebox/ice40/chipdb-384.bin
+0 warnings, 1 error
