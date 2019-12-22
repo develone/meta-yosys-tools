@@ -1,0 +1,57 @@
+Testing rp4-64 12/20/19
+The rpm was created with bitbake -DDD icestorm
+
+installed icestorm using a rpm Dec 20 21:55
+rpm -i --test icestorm-0.1+git0+041c075e4a-r0.aarch64.rpm
+rpm -i icestorm-0.1+git0+041c075e4a-r0.aarch64.rpm 
+export PATH=/opt/bin:$PATH
+
+Note: PATH needs /opt/bin to locate icestorm binaries.
+export PATH=/opt/bin:$PATH
+default PATH /usr/local/bin:/usr/bin:/bin
+
+/opt/bin/icetime
+/opt/bin/icepack
+/opt/bin/nextpnr-ice40
+
+Building nextpnr with icestorm installed by rpm at "/opt/bin /opt/share/icebox" 
+instead of /usr/local/bin /usr/share/icebox". BUILD_GUI set to OFF.
+
+A fork of nextpnr on 12/20/19
+git clone https://github.com/develone/nextpnr.git
+cd nextpnr
+git checkout yocto
+git branch 
+  master
+* yocto
+https://github.com/develone/nextpnr.git
+
+commit 98cc243b5f7074ce4b49203ce06d7665d8c4a744 (HEAD -> yocto, origin/yocto, origin/master, origin/HEAD, master)
+Merge: dd7f7a5 16e28f0
+Author: Miodrag Milanovi<C4><87> <mmicko@gmail.com>
+Date:   Fri Dec 20 15:35:24 2019 +0100
+
+    Merge pull request #370 from fghoussen/readme
+    
+    [DOC] Fixing typo: cmake test suite triggered by 'make test'.
+    
+cmake -DARACH=ice40 -DBUILD_GUI=OFF .
+ 
+date > start; make -j$(nproc); date >> start
+Sun Dec 22 11:20:43 UTC 2019
+Sun Dec 22 11:32:37 UTC 2019
+
+make install
+[ 93%] Built target nextpnr-ice40
+[100%] Built target bbasm
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /opt/bin/nextpnr-ice40
+
+export PATH=/opt/bin:$PATH
+
+nextpnr-ice40 --seed 8 --freq 40 --hx8k --pcf catzip.pcf --json catzip.json --asc catzip.asc
+Warning: Use of default value for --package is deprecated. Please add '--package ct256' to arguments.
+ERROR: Unable to read chipdb /opt/share/icebox/ice40/chipdb-384.bin
+1 warning, 1 error
+
