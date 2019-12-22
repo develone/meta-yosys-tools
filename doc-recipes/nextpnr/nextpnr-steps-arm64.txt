@@ -50,6 +50,8 @@ Install the project...
 
 export PATH=/opt/bin:$PATH
 
+Note: This requires a catzip.blif, in addition to files on the cmd line.
+
 nextpnr-ice40 --seed 8 --freq 40 --hx8k --pcf catzip.pcf --json catzip.json --asc catzip.asc
 Warning: Use of default value for --package is deprecated. Please add '--package ct256' to arguments.
 ERROR: Unable to read chipdb /opt/share/icebox/ice40/chipdb-384.bin
@@ -58,3 +60,20 @@ ERROR: Unable to read chipdb /opt/share/icebox/ice40/chipdb-384.bin
 raspberrypi4-64:~/catzip/rtl/catzip$ nextpnr-ice40 --package ct256 --seed 8 --freq 40 --hx8k --pcf catzip.pcf --json catzip.json --asc catzip.asc
 ERROR: Unable to read chipdb /opt/share/icebox/ice40/chipdb-384.bin
 0 warnings, 1 error
+
+
+Testing ver 7d5dba3ad last ver working rpi4 32 bit.
+
+cd nextpnr
+
+git checkout 7d5dba3ad
+
+cmake -DARACH=ice40 -DBUILD_GUI=OFF .
+
+make -j$(nproc)
+[  2%] Building CXX object CMakeFiles/bbasm.dir/bba/main.cc.o
+[  5%] Linking CXX executable bbasm
+[  5%] Built target bbasm
+make[2]: *** No rule to make target '/usr/local/share/icebox/chipdb-8k.txt', needed by 'ice40/chipdbs/chipdb-8k.bba'.  Stop.
+make[1]: *** [CMakeFiles/Makefile2:134: CMakeFiles/ice40_chipdb.dir/all] Error 2
+make: *** [Makefile:130: all] Error 2
