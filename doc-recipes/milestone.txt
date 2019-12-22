@@ -1,0 +1,12 @@
+The aarch64 image was created with poky yocto core-image-sato-raspberrypi4-64-20191220184100.rootfs.rpi-sdimg.  The image is 2.93Gb.  
+This method of cross compiling provides several advantages over compiling on target.
+1 The time to compile is greatly reduced over compiling on target.
+2 The rpm or deb can be installed using the target package manager.
+3 The binaries are only needed to be installed.
+4 Provides a method for tracking license of the packages required to build the package.  
+Just tested an icestorm rpm which was cross compiled & packaged on a Ubuntu 16.04 x86_64 with poky yocto.  
+The target raspberrypi4-64 was used to compile nextpnr.  Now nextpnr builds using icestorm install with 
+rpm. The catzip.asc  created from nextpnr was use to create catzip.bin.  The catzip.bin loads and 
+executes correctly on ice40 hx8k fpga with a rpi3B.  2 important steps were needed.  
+rsync -avl bin share /usr/local/  
+ln -sf /usr/local/bin/nextpnr-ice40 nextpnr-ice40
