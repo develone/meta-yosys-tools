@@ -35,12 +35,140 @@ Date:   Fri Dec 20 15:35:24 2019 +0100
     
     [DOC] Fixing typo: cmake test suite triggered by 'make test'.
     
-cmake -DARACH=ice40 -DBUILD_GUI=OFF .
+cmake -DARCH=ice40 -DBUILD_GUI=OFF .
  
 date > start; make -j$(nproc); date >> start
+
+date > start; make -j$(nproc); date >> start
+[  4%] Built target bbasm
+make[2]: *** No rule to make target '/usr/local/share/icebox/chipdb-384.txt', needed by 'ice40/chipdbs/chipdb-384.bba'.  Stop.
+make[1]: *** [CMakeFiles/Makefile2:134: CMakeFiles/ice40_chipdb.dir/all] Error 2
+make: *** [Makefile:130: all] Error 2
+
+rsync -avl bin share /usr/local/
+
+date > start; make -j$(nproc); date >> start
+[  4%] Built target bbasm
+[  6%] Generating ice40/chipdbs/chipdb-384.bba
+[ 10%] Generating ice40/chipdbs/chipdb-384.cc
+[ 10%] Generating ice40/chipdbs/chipdb-1k.bba
+[ 15%] Generating ice40/chipdbs/chipdb-1k.cc
+[ 15%] Generating ice40/chipdbs/chipdb-5k.bba
+[ 19%] Generating ice40/chipdbs/chipdb-5k.cc
+[ 19%] Generating ice40/chipdbs/chipdb-u4k.bba
+[ 23%] Generating ice40/chipdbs/chipdb-8k.bba
+[ 23%] Generating ice40/chipdbs/chipdb-u4k.cc
+[ 26%] Generating ice40/chipdbs/chipdb-8k.cc
+Scanning dependencies of target ice40_chipdb
+[ 32%] Building CXX object CMakeFiles/ice40_chipdb.dir/ice40/chipdbs/chipdb-384.cc.o
+[ 32%] Building CXX object CMakeFiles/ice40_chipdb.dir/ice40/chipdbs/chipdb-1k.cc.o
+[ 32%] Building CXX object CMakeFiles/ice40_chipdb.dir/ice40/chipdbs/chipdb-5k.cc.o
+[ 34%] Building CXX object CMakeFiles/ice40_chipdb.dir/ice40/chipdbs/chipdb-u4k.cc.o
+[ 36%] Building CXX object CMakeFiles/ice40_chipdb.dir/ice40/chipdbs/chipdb-8k.cc.o
+[ 36%] Built target ice40_chipdb
+Scanning dependencies of target nextpnr-ice40
+[ 39%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/archcheck.cc.o
+[ 43%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/design_utils.cc.o
+[ 43%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/command.cc.o
+[ 45%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/handle_error.cc.o
+[ 47%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/log.cc.o
+[ 50%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/nextpnr.cc.o
+[ 52%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/place_common.cc.o
+[ 54%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/placer1.cc.o
+[ 56%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/placer_heap.cc.o
+[ 58%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/pybindings.cc.o
+[ 60%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/router1.cc.o
+[ 63%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/rulecheck.cc.o
+[ 65%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/sdf.cc.o
+[ 67%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/timing.cc.o
+[ 69%] Building CXX object CMakeFiles/nextpnr-ice40.dir/common/timing_opt.cc.o
+[ 71%] Building CXX object CMakeFiles/nextpnr-ice40.dir/json/jsonparse.cc.o
+[ 73%] Building CXX object CMakeFiles/nextpnr-ice40.dir/json/jsonwrite.cc.o
+[ 76%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/arch.cc.o
+[ 78%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/arch_place.cc.o
+[ 80%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/arch_pybindings.cc.o
+[ 82%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/bitstream.cc.o
+[ 84%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/cells.cc.o
+[ 86%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/chains.cc.o
+[ 89%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/delay.cc.o
+[ 91%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/gfx.cc.o
+[ 93%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/main.cc.o
+[ 95%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/pack.cc.o
+[ 97%] Building CXX object CMakeFiles/nextpnr-ice40.dir/ice40/pcf.cc.o
+[100%] Linking CXX executable nextpnr-ice40
+[100%] Built target nextpnr-ice40
+Sun Dec 22 17:14:24 UTC 2019
+Sun Dec 22 18:14:37 UTC 2019
+The first 26% takes the majority of the time.
+On a previous build
 Sun Dec 22 11:20:43 UTC 2019
 Sun Dec 22 11:32:37 UTC 2019
+make install
+[  4%] Built target bbasm
+[ 36%] Built target ice40_chipdb
+[100%] Built target nextpnr-ice40
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /usr/local/bin/nextpnr-ice40
+Note: linking right now is very import step.
+ln -sf /usr/local/bin/nextpnr-ice40 nextpnr-ice40
+cd ~/catzip/rtl/catzip
+nextpnr-ice40 --seed 8 --freq 40 --hx8k --pcf catzip.pcf --json catzip.json --asc catzip.asc
+Info: [ 21814,  22530) |************************************************************ 
+Info: [ 22530,  23246) |****************************************************+
+Info: [ 23246,  23962) |**********************************+
+3 warnings, 0 errors
+ 
+icetime -d hx8k -c 40 catzip.asc
+// Reading input .asc file..
+// Reading 8k chipdb file..
+// Creating timing netlist..
+// Timing estimate: 15.89 ns (62.92 MHz)
+// Checking 25.00 ns (40.00 MHz) clock constraint: PASSED.
+icepack catzip.asc catzip.bin
+ls -la catzip.asc catzip.bin 
+-rw-r--r-- 1 devel devel 3546600 Dec 22 19:02 catzip.asc
+-rw-r--r-- 1 devel devel  135100 Dec 22 19:10 catzip.bin
+md5sum catzip.bin 
+2de5e685e015e9df57c6c5ff62fdb421  catzip.bin
+Transfer to Rpi with catboard
 
+scp catzip.bin pi@mypi3-1:~/testbuilds/tbcc/
+-rw-r--r-- 1 pi pi 135100 Dec 22 13:39 catzip.bin
+md5sum catzip.bin 
+2de5e685e015e9df57c6c5ff62fdb421  catzip.bin
+sudo config_cat catzip.bin
+cd ../tb315/catzip/sw/host/
+ ./arm-netpport 
+Listening on port 8363
+Listening on port 8364
+ ptrs.inpbuf = 0x100f120 buf_red = 0x104f198
+. fwd_inv = 0x10cf1a0
+. x = 0xe22247c sp = 0x7c z = 0x7c
+. x = 0xde22083 sp = 0x83 z = 0x83
+. x = 0xe221475 sp = 0x75 z = 0x75
+. x = 0xe32207b sp = 0x7b z = 0x7b
+. x = 0xa812055 sp = 0x55 z = 0x55
+. x = 0xb210c4c sp = 0x4c z = 0x4c
+. spliting blue sub band
+. fwd lifting step only
+. w = 0x100 wptr = 0x104f198 alt =  0x108f198 fwd_inverse =  0x10cf1a0 fwd_inver.  =  0x1 
+. starting red dwt
+. in singlelift 
+. in singlelift 
+. in singlelift 
+. in singlelift 
+. in singlelift 
+. in singlelift 
+. testing test_fwd 
+. finished ted dwt
+
+cd testbuilds/tb315/catzip/sw/host
+ ./runjpeg.sh
+loads program jpeg. 
+Then loads sdram with rgb.bin splits into either r g b and performs dwt using zipcpu. 
+Then writes dwt.bin 
+On a previous build
 make install
 [ 93%] Built target nextpnr-ice40
 [100%] Built target bbasm
