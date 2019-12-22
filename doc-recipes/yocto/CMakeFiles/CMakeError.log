@@ -1,0 +1,48 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):ninja cmTC_85fb5 && [1/2] Building C object CMakeFiles/cmTC_85fb5.dir/src.c.o
+[2/2] Linking C executable cmTC_85fb5
+FAILED: cmTC_85fb5 
+: && /home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/aarch64-poky-linux-gcc -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native=   -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now   -rdynamic CMakeFiles/cmTC_85fb5.dir/src.c.o  -o cmTC_85fb5   && :
+/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/../../libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/9.2.0/ld: CMakeFiles/cmTC_85fb5.dir/src.c.o: in function `main':
+/usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/build/CMakeFiles/CMakeTmp/src.c:11: undefined reference to `pthread_create'
+/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/../../libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/9.2.0/ld: /usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/build/CMakeFiles/CMakeTmp/src.c:12: undefined reference to `pthread_detach'
+/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/../../libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/9.2.0/ld: /usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/build/CMakeFiles/CMakeTmp/src.c:13: undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):ninja cmTC_e6924 && [1/2] Building C object CMakeFiles/cmTC_e6924.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_e6924
+FAILED: cmTC_e6924 
+: && /home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/aarch64-poky-linux-gcc -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native=   -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot -DCHECK_FUNCTION_EXISTS=pthread_create  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now   -rdynamic CMakeFiles/cmTC_e6924.dir/CheckFunctionExists.c.o  -o cmTC_e6924  -lpthreads && :
+/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnr/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux/../../libexec/aarch64-poky-linux/gcc/aarch64-poky-linux/9.2.0/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+
+
