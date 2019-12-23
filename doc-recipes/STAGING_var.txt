@@ -1,0 +1,130 @@
+https://wiki.yoctoproject.org/wiki/Technical_FAQ
+
+I have two recipes and one needs to access files provided by another - how can that work?
+Instead of providing direct access from a recipe to another's build tree (which wouldn't 
+be practical with OpenEmbedded since the build tree (or "workdir") is temporary), we create 
+a "sysroot" where files that are intended to be shared between recipes get copied. 
+The sysroot is managed by the build system and you should not copy files in there directly - 
+instead, you install files under ${D} as normal during do_install and then the build system 
+will copy a subset of those to the sysroot. There is a seperate sysroot for each machine being 
+built for. In a recipe you can get the path of the sysroot and various standard directories under 
+it using the STAGING_* variables.
+
+Often, for commonly-used build systems such as autotools and cmake you don't need to worry about these details - those systems and the environment that OpenEmbedded sets up for them will ensure that files get installed and picked up in the correct locations. However if the software your recipe is building has custom build scripts / makefiles and it takes shortcuts that don't account for cross-compilation or the use of a sysroot, then you will need to make appropriate adjustments.
+
+
+#!/bin/sh
+
+# Emit a useful diagnostic if something fails:
+bb_exit_handler() {
+    ret=$?
+    case $ret in
+    0)  ;;
+    *)  case $BASH_VERSION in
+        "") echo "WARNING: exit code $ret from a shell command.";;
+        *)  echo "WARNING: ${BASH_SOURCE[0]}:${BASH_LINENO[0]} exit $ret from '$BASH_COMMAND'";;
+        esac
+        exit $ret
+    esac
+}
+trap 'bb_exit_handler' 0
+set -e
+export AR="aarch64-poky-linux-gcc-ar"
+export AS="aarch64-poky-linux-as "
+export BUILD_AR="ar"
+export BUILD_AS="as "
+export BUILD_CC="gcc "
+export BUILD_CCLD="gcc "
+export BUILD_CFLAGS="-isystem/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/include -O2 -pipe"
+export BUILD_CPP="gcc  -E"
+export BUILD_CPPFLAGS="-isystem/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/include"
+export BUILD_CXX="g++ "
+export BUILD_CXXFLAGS="-isystem/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/include -O2 -pipe"
+export BUILD_FC="gfortran "
+export BUILD_LD="ld "
+export BUILD_LDFLAGS="-L/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/lib                         -L/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2"
+export BUILD_NM="nm"
+export BUILD_RANLIB="ranlib"
+export BUILD_STRIP="strip"
+export CC="aarch64-poky-linux-gcc  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+export CCLD="aarch64-poky-linux-gcc  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+export CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native=   -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+export CPP="aarch64-poky-linux-gcc -E --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security"
+export CPPFLAGS=""
+export CXX="aarch64-poky-linux-g++  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+export CXXFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0=/usr/src/debug/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native=  -fvisibility-inlines-hidden  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+unset DISTRO
+export FC="aarch64-poky-linux-gfortran  -mcpu=cortex-a72+crc+crypto -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+export HOME="/home/vidal"
+export LC_ALL="en_US.UTF-8"
+export LD="aarch64-poky-linux-ld --sysroot=/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot "
+export LDFLAGS="-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now"
+export LOGNAME="vidal"
+unset MACHINE
+export MAKE="make"
+export NM="aarch64-poky-linux-nm"
+export OBJCOPY="aarch64-poky-linux-objcopy"
+export OBJDUMP="aarch64-poky-linux-objdump"
+export PATH="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/python3-native:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/poky/scripts:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/aarch64-poky-linux:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/bin/crossscripts:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/sbin:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/sbin:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/bin:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/poky/bitbake/bin:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/hosttools"
+export PKG_CONFIG_DIR="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/lib/pkgconfig"
+export PKG_CONFIG_DISABLE_UNINSTALLED="yes"
+export PKG_CONFIG_LIBDIR="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/lib/pkgconfig"
+export PKG_CONFIG_PATH="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/lib/pkgconfig:/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/share/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot"
+export PKG_CONFIG_SYSTEM_INCLUDE_PATH="/usr/include"
+export PKG_CONFIG_SYSTEM_LIBRARY_PATH="/lib:/usr/lib"
+export PSEUDO_DISABLED="1"
+export PSEUDO_UNLOAD="1"
+export PYTHON="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot-native/usr/bin/python3-native/python3"
+export PYTHONNOUSERSITE="1"
+export PYTHON_INCLUDE_DIR="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/include/python3.7m"
+export PYTHON_LIBRARY="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/lib/libpython3.7m.so"
+export RANLIB="aarch64-poky-linux-gcc-ranlib"
+export READELF="aarch64-poky-linux-readelf"
+unset SHELL
+export STAGING_INCDIR="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/include"
+export STAGING_LIBDIR="/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/recipe-sysroot/usr/lib"
+export STRINGS="aarch64-poky-linux-strings"
+export STRIP="aarch64-poky-linux-strip"
+unset TARGET_ARCH
+export TERM="xterm-256color"
+export TZ="UTC"
+export USER="vidal"
+export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+export base_bindir="/bin"
+export base_libdir="/lib"
+export base_prefix=""
+export base_sbindir="/sbin"
+export bindir="/usr/bin"
+export datadir="/usr/share"
+export docdir="/usr/share/doc"
+export exec_prefix="/usr"
+export includedir="/usr/include"
+export infodir="/usr/share/info"
+export libdir="/usr/lib"
+export libexecdir="/usr/libexec"
+export localstatedir="/var"
+export mandir="/usr/share/man"
+export nonarch_base_libdir="/lib"
+export nonarch_libdir="/usr/lib"
+export oldincludedir="/usr/include"
+export prefix="/usr"
+export sbindir="/usr/sbin"
+export servicedir="/srv"
+export sharedstatedir="/com"
+export sysconfdir="/etc"
+export systemd_system_unitdir="/lib/systemd/system"
+export systemd_unitdir="/lib/systemd"
+export systemd_user_unitdir="/usr/lib/systemd/user"
+
+do_configure() {
+	echo ${STAGING_* variables}
+}
+
+cd '/home/vidal/wkg/yocto-zeus-3.0/rpi4-64/build/tmp/work/aarch64-poky-linux/nextpnrtest/0.1+gitAUTOINC+98cc243b5f-r0/build'
+do_configure
+
+# cleanup
+ret=$?
+trap '' 0
+exit $ret
